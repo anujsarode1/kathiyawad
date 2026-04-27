@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Kathiyawad Dhaba</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#c0392b;
+  --red-dark:#922b21;
+  --red-light:#f1948a;
+  --gold:#d4a017;
+  --cream:#fdf6ec;
+  --brown:#4a2c0a;
+  --green:#1e8449;
+  --text:#2c1a0e;
+  --grey:#7f8c8d;
+  --white:#fff;
+  --card-shadow:0 4px 20px rgba(0,0,0,.1);
+}
+
+body{background:var(--cream);color:var(--text);font-family:'Mukta',sans-serif;overflow-x:hidden;}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#7b0d0d 0%,#c0392b 50%,#922b21 100%);
+  color:white;
+  padding:0;
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+  position:sticky;top:0;z-index:200;
+}
+.header-inner{
+  max-width:1400px;margin:auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;
+  gap:12px;
+}
+.logo-wrap{display:flex;align-items:center;gap:12px;}
+.logo-icon{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;box-shadow:0 2px 10px rgba(0,0,0,.3);
+  border:2px solid rgba(255,255,255,.3);
+}
+.logo-text{line-height:1.1;}
+.logo-text h1{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;letter-spacing:.5px;}
+.logo-text span{font-size:11px;opacity:.85;letter-spacing:1.5px;text-transform:uppercase;}
+
+.header-right{display:flex;align-items:center;gap:10px;}
+
+.cart-btn{
+  position:relative;
+  background:var(--white);
+  color:var(--red);
+  border:none;cursor:pointer;
+  padding:10px 20px;
+  border-radius:30px;
+  font-family:'Mukta',sans-serif;
+  font-weight:700;font-size:15px;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  transition:all .2s;
+  white-space:nowrap;
+}
+.cart-btn:hover{background:var(--cream);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.25);}
+.cart-badge{
+  background:var(--gold);
+  color:var(--brown);
+  width:22px;height:22px;border-radius:50%;
+  font-size:12px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* HERO */
+.hero{
+  background:url('https://images.unsplash.com/photo-1596797038530-2c107229654b?w=1400&q=80') center/cover;
+  height:260px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;text-align:center;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(120,10,10,.55),rgba(0,0,0,.6));
+}
+.hero-content{position:relative;z-index:1;padding:20px;}
+.hero-content h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,5vw,42px);
+  color:white;font-weight:900;
+  text-shadow:0 2px 10px rgba(0,0,0,.5);
+  letter-spacing:.5px;
+}
+.hero-content p{
+  color:var(--gold);font-size:15px;margin-top:6px;
+  letter-spacing:2px;text-transform:uppercase;font-weight:600;
+}
+
+/* FILTER */
+.filter-section{
+  background:white;
+  border-bottom:3px solid #f0e0d0;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.filter-section::-webkit-scrollbar{display:none;}
+.filter-scroll{
+  display:flex;gap:8px;
+  padding:12px 16px;
+  min-width:fit-content;
+}
+.filter-btn{
+  padding:9px 18px;
+  border:2px solid #e8d5c4;
+  background:white;cursor:pointer;
+  border-radius:25px;font-weight:700;
+  white-space:nowrap;transition:all .25s;
+  font-size:13px;color:#555;
+  font-family:'Mukta',sans-serif;
+  letter-spacing:.3px;
+}
+.filter-btn:hover,.filter-btn.active{
+  background:var(--red);color:white;
+  border-color:var(--red);
+  box-shadow:0 3px 10px rgba(192,57,43,.35);
+  transform:translateY(-1px);
+}
+
+/* GRID */
+.products-section{padding:18px;max-width:1400px;margin:auto;}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:20px;color:var(--red-dark);
+  margin-bottom:14px;padding-left:4px;
+  border-left:4px solid var(--gold);
+  padding-left:12px;
+}
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(165px,1fr));
+  gap:14px;
+}
+
+/* CARD */
+.card{
+  background:white;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:var(--card-shadow);
+  border:1px solid #f0e0d0;
+  display:flex;flex-direction:column;
+  transition:all .25s;
+  cursor:default;
+}
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 8px 30px rgba(192,57,43,.18);
+  border-color:var(--red-light);
+}
+.card-img-wrap{position:relative;overflow:hidden;height:115px;}
+.card-img-wrap img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform .4s;
+}
+.card:hover .card-img-wrap img{transform:scale(1.08);}
+.veg-badge{
+  position:absolute;top:8px;left:8px;
+  background:white;border:2px solid var(--green);
+  border-radius:4px;width:18px;height:18px;
+  display:flex;align-items:center;justify-content:center;
+}
+.veg-badge::after{
+  content:'';width:8px;height:8px;
+  border-radius:50%;background:var(--green);display:block;
+}
+.card-body{padding:10px 12px 12px;flex:1;display:flex;flex-direction:column;}
+.card-name{
+  font-size:14px;font-weight:700;
+  line-height:1.3;margin-bottom:6px;
+  color:var(--text);flex:1;
+}
+.card-footer{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto;}
+.card-price{color:var(--red);font-weight:900;font-size:17px;}
+.add-btn{
+  background:var(--red);color:white;
+  border:none;cursor:pointer;
+  padding:6px 14px;border-radius:20px;
+  font-weight:700;font-size:13px;
+  font-family:'Mukta',sans-serif;
+  transition:all .2s;white-space:nowrap;
+}
+.add-btn:hover{background:var(--red-dark);transform:scale(1.05);}
+.add-btn:active{transform:scale(.95);}
+.add-btn.added{background:var(--green);}
+
+/* ======== CART OVERLAY ======== */
+.cart-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:998;
+  display:none;
+  opacity:0;
+  transition:opacity .3s;
+  backdrop-filter:blur(3px);
+}
+.cart-overlay.open{display:block;opacity:1;}
+
+/* CART PANEL - FULL RIGHT SIDE */
+.cart-panel{
+  position:fixed;
+  top:0;right:0;
+  width:420px;max-width:100vw;
+  height:100vh;
+  background:white;
+  z-index:999;
+  display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  box-shadow:-6px 0 40px rgba(0,0,0,.2);
+}
+.cart-panel.open{transform:translateX(0);}
+
+/* Cart Header */
+.cart-header{
+  background:linear-gradient(135deg,#7b0d0d,#c0392b);
+  color:white;padding:20px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.cart-header h3{
+  font-family:'Playfair Display',serif;
+  font-size:22px;font-weight:900;
+}
+.cart-header-right{display:flex;align-items:center;gap:12px;}
+.cart-count-pill{
+  background:var(--gold);color:var(--brown);
+  padding:4px 12px;border-radius:20px;
+  font-weight:900;font-size:14px;
+}
+.close-cart{
+  background:rgba(255,255,255,.2);border:none;
+  color:white;width:36px;height:36px;
+  border-radius:50%;cursor:pointer;
+  font-size:20px;display:flex;align-items:center;justify-content:center;
+  transition:.2s;
+}
+.close-cart:hover{background:rgba(255,255,255,.35);}
+
+/* Cart Items */
+.cart-items-wrap{
+  flex:1;overflow-y:auto;
+  padding:0;
+  scrollbar-width:thin;
+  scrollbar-color:var(--red-light) transparent;
+}
+.cart-empty{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;height:100%;
+  gap:12px;color:var(--grey);padding:40px 20px;text-align:center;
+}
+.cart-empty-icon{font-size:64px;}
+.cart-empty h4{font-size:18px;color:var(--text);}
+.cart-empty p{font-size:14px;}
+
+.cart-item{
+  display:flex;align-items:center;
+  padding:14px 20px;
+  border-bottom:1px solid #f5eae0;
+  gap:12px;
+  transition:background .15s;
+}
+.cart-item:hover{background:#fdf6ec;}
+.cart-item-img{
+  width:56px;height:56px;border-radius:10px;
+  object-fit:cover;flex-shrink:0;
+  border:2px solid #f0e0d0;
+}
+.cart-item-info{flex:1;min-width:0;}
+.cart-item-name{
+  font-weight:700;font-size:14px;
+  color:var(--text);line-height:1.3;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.cart-item-price{color:var(--red);font-weight:700;font-size:14px;margin-top:2px;}
+.qty-controls{
+  display:flex;align-items:center;gap:6px;flex-shrink:0;
+}
+.qty-btn{
+  width:30px;height:30px;border-radius:8px;
+  border:none;cursor:pointer;
+  font-size:16px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  transition:.15s;
+}
+.qty-btn.minus{background:#ffe0e0;color:var(--red);}
+.qty-btn.minus:hover{background:var(--red);color:white;}
+.qty-btn.plus{background:#e0f5e0;color:var(--green);}
+.qty-btn.plus:hover{background:var(--green);color:white;}
+.qty-num{
+  min-width:28px;text-align:center;
+  font-weight:900;font-size:16px;color:var(--text);
+}
+
+/* Cart Footer */
+.cart-footer{
+  flex-shrink:0;
+  border-top:2px solid #f0e0d0;
+  background:var(--cream);
+}
+.bill-summary{padding:16px 20px 0;}
+.bill-row{
+  display:flex;justify-content:space-between;
+  align-items:center;padding:5px 0;
+  font-size:14px;color:var(--grey);
+}
+.bill-row.total{
+  border-top:2px dashed #e0c8b0;
+  margin-top:8px;padding-top:12px;
+  font-size:20px;font-weight:900;
+  color:var(--text);
+}
+.bill-row.total span:last-child{color:var(--green);}
+
+/* Checkout Form */
+.checkout-form{padding:14px 20px 20px;}
+.checkout-form h4{
+  font-size:15px;font-weight:700;
+  color:var(--brown);margin-bottom:10px;
+  text-transform:uppercase;letter-spacing:.8px;
+}
+.form-row{display:flex;gap:10px;margin-bottom:10px;}
+.inp-wrap{flex:1;position:relative;}
+.inp-wrap label{
+  display:block;font-size:11px;font-weight:700;
+  color:var(--grey);text-transform:uppercase;
+  letter-spacing:.8px;margin-bottom:4px;
+}
+.inp-wrap input{
+  width:100%;padding:11px 14px;
+  border:2px solid #e8d5c4;border-radius:10px;
+  font-size:15px;font-family:'Mukta',sans-serif;
+  background:white;color:var(--text);
+  transition:border .2s;outline:none;
+}
+.inp-wrap input:focus{border-color:var(--red);}
+
+.order-btn{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,#1a8a44,#27ae60);
+  color:white;border:none;border-radius:12px;
+  font-size:17px;font-weight:900;
+  font-family:'Mukta',sans-serif;
+  cursor:pointer;letter-spacing:.5px;
+  box-shadow:0 4px 15px rgba(39,174,96,.35);
+  transition:all .25s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.order-btn:hover{background:linear-gradient(135deg,#148f3a,#219a55);transform:translateY(-2px);box-shadow:0 6px 20px rgba(39,174,96,.45);}
+.order-btn:active{transform:translateY(0);}
+
+/* SUCCESS POPUP */
+.success-popup{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(.8);
+  background:white;padding:30px 40px;
+  border-radius:20px;
+  box-shadow:0 10px 50px rgba(0,0,0,.25);
+  z-index:1100;text-align:center;
+  display:none;opacity:0;
+  transition:all .3s;
+  border-top:5px solid var(--green);
+}
+.success-popup.show{
+  display:block;opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+}
+.success-popup .icon{font-size:50px;margin-bottom:10px;}
+.success-popup h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--green);}
+.success-popup p{font-size:14px;color:var(--grey);margin-top:6px;}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:#333;color:white;
+  padding:12px 24px;border-radius:30px;
+  font-size:14px;font-weight:600;
+  z-index:1200;transition:transform .3s;
+  white-space:nowrap;
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* FOOTER */
+footer{
+  text-align:center;padding:24px;
+  background:var(--brown);color:rgba(255,255,255,.75);
+  font-size:13px;margin-top:30px;
+}
+footer strong{color:var(--gold);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .products-grid{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:11px;}
+  .cart-panel{width:100vw;}
+  .hero{height:200px;}
+}
+@media(max-width:480px){
+  .products-section{padding:12px;}
+  .products-grid{grid-template-columns:repeat(2,1fr);gap:9px;}
+  .card-img-wrap{height:100px;}
+  .card-name{font-size:13px;}
+  .card-price{font-size:15px;}
+  .logo-text h1{font-size:18px;}
+  .hero{height:160px;}
+  .hero-content h2{font-size:20px;}
+  .form-row{flex-direction:column;gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <div class="logo-icon">🍛</div>
+      <div class="logo-text">
+        <h1>Kathiyawad Dhaba</h1>
+        <span>Pure Veg · Authentic Gujarati</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="cart-btn" onclick="openCart()">
+        🛒 Cart
+        <div class="cart-badge" id="cartCount">0</div>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h2>Ghar Jaisa Swad, Dil Ka Ehsaas</h2>
+    <p>Authentic Gujarati &amp; Kathiyawadi Flavours</p>
+  </div>
+</div>
+
+<!-- FILTER -->
+<div class="filter-section">
+  <div class="filter-scroll">
+    <button class="filter-btn active" onclick="filterCategory('all',this)">🍽️ All</button>
+    <button class="filter-btn" onclick="filterCategory('snacks',this)">🥨 Snacks</button>
+    <button class="filter-btn" onclick="filterCategory('south',this)">🥞 South Indian</button>
+    <button class="filter-btn" onclick="filterCategory('paranthas',this)">🥖 Paranthas</button>
+    <button class="filter-btn" onclick="filterCategory('soups',this)">🍲 Soups</button>
+    <button class="filter-btn" onclick="filterCategory('starters',this)">⭐ Starters</button>
+    <button class="filter-btn" onclick="filterCategory('maincourse',this)">🍛 Main Course</button>
+    <button class="filter-btn" onclick="filterCategory('breads',this)">🫓 Breads</button>
+    <button class="filter-btn" onclick="filterCategory('rice',this)">🍚 Rice</button>
+    <button class="filter-btn" onclick="filterCategory('drinks',this)">🥤 Drinks</button>
+    <button class="filter-btn" onclick="filterCategory('desserts',this)">🍮 Desserts</button>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="products-section">
+  <div class="section-title" id="sectionTitle">All Items</div>
+  <div class="products-grid" id="productGrid"></div>
+</div>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+<!-- CART PANEL -->
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h3>🛒 Your Order</h3>
+    <div class="cart-header-right">
+      <div class="cart-count-pill" id="cartCountPanel">0 items</div>
+      <button class="close-cart" onclick="closeCart()">✕</button>
+    </div>
+  </div>
+
+  <div class="cart-items-wrap" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon">🍽️</div>
+      <h4>Your plate is empty!</h4>
+      <p>Add delicious items from our menu</p>
+    </div>
+  </div>
+
+  <div class="cart-footer">
+    <div class="bill-summary" id="billSummary" style="display:none">
+      <div class="bill-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+      <div class="bill-row total"><span>Total</span><span id="totalPrice">₹0</span></div>
+    </div>
+
+    <div class="checkout-form" id="checkoutForm" style="display:none">
+      <h4>📝 Order Details</h4>
+      <div class="form-row">
+        <div class="inp-wrap">
+          <label>Your Name</label>
+          <input type="text" id="customerName" placeholder="e.g. Ramesh Patel">
+        </div>
+        <div class="inp-wrap">
+          <label>Table No.</label>
+          <input type="number" id="tableNo" placeholder="e.g. 5" min="1">
+        </div>
+      </div>
+      <button class="order-btn" onclick="placeOrder()">
+        <span>🍽️</span> Place Order
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS POPUP -->
+<div class="success-popup" id="successPopup">
+  <div class="icon">✅</div>
+  <h3>Order Placed!</h3>
+  <p>Your order has been sent to the kitchen.</p>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<footer>© 2026 <strong>Kathiyawad Dhaba</strong> · Authentic Gujarati Food · Nagpur</footer>
+
+<script>
+emailjs.init("jczZo2f3e9vL9Nk24");
+
+const categoryTitles={
+  all:"All Items",snacks:"🥨 Snacks",south:"🥞 South Indian",
+  paranthas:"🥖 Paranthas",soups:"🍲 Soups",starters:"⭐ Starters",
+  maincourse:"🍛 Main Course",breads:"🫓 Breads",rice:"🍚 Rice",
+  drinks:"🥤 Drinks",desserts:"🍮 Desserts"
+};
+
+const products=[
+  {name:"Pure Vel",price:30,category:"snacks",img:"https://images.unsplash.com/photo-1585238341710-4dd0bd180d8d?w=300&q=80"},
+  {name:"Dahi Samosa",price:50,category:"snacks",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Sambar Samosa",price:45,category:"snacks",img:"https://images.unsplash.com/photo-1585238341710-4dd0bd180d8d?w=300&q=80"},
+  {name:"Bread Pakoda",price:40,category:"snacks",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Pyaaz Pakoda",price:40,category:"snacks",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Algo Bonda",price:35,category:"snacks",img:"https://images.unsplash.com/photo-1585238341710-4dd0bd180d8d?w=300&q=80"},
+  {name:"Missal",price:50,category:"snacks",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Dry Bhel",price:35,category:"snacks",img:"https://images.unsplash.com/photo-1585238341710-4dd0bd180d8d?w=300&q=80"},
+  {name:"Poha",price:40,category:"snacks",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Sabudana Vada",price:30,category:"snacks",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Sabudana Khichadi",price:80,category:"snacks",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Kachori",price:40,category:"snacks",img:"https://images.unsplash.com/photo-1585238341710-4dd0bd180d8d?w=300&q=80"},
+  {name:"Idli Sambar",price:50,category:"snacks",img:"https://images.unsplash.com/photo-1666190092159-3171cf0fbb12?w=300&q=80"},
+  {name:"Vada Sambar",price:60,category:"south",img:"https://images.unsplash.com/photo-1666190092159-3171cf0fbb12?w=300&q=80"},
+  {name:"Idli-Vada",price:60,category:"south",img:"https://images.unsplash.com/photo-1666190092159-3171cf0fbb12?w=300&q=80"},
+  {name:"Plain Dosa",price:70,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Masala Dosa",price:80,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Plain Butter Dosa",price:80,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Butter Masala Dosa",price:90,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Cheese Plain Dosa",price:90,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Cheese Masala Dosa",price:100,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Rawa Plain Dosa",price:90,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Rawa Masala Dosa",price:100,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Paneer Masala Dosa",price:120,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Mysore Masala Dosa",price:90,category:"south",img:"https://images.unsplash.com/photo-1630383249896-424e482df921?w=300&q=80"},
+  {name:"Plain Uttapam",price:80,category:"south",img:"https://images.unsplash.com/photo-1599599809232-4e8aef4e5cd5?w=300&q=80"},
+  {name:"Plain Butter Uttapam",price:90,category:"south",img:"https://images.unsplash.com/photo-1599599809232-4e8aef4e5cd5?w=300&q=80"},
+  {name:"Onion Uttapam",price:80,category:"south",img:"https://images.unsplash.com/photo-1599599809232-4e8aef4e5cd5?w=300&q=80"},
+  {name:"Onion Butter Uttapam",price:90,category:"south",img:"https://images.unsplash.com/photo-1599599809232-4e8aef4e5cd5?w=300&q=80"},
+  {name:"Tomato Uttapam",price:80,category:"south",img:"https://images.unsplash.com/photo-1599599809232-4e8aef4e5cd5?w=300&q=80"},
+  {name:"Tomato Butter Uttapam",price:90,category:"south",img:"https://images.unsplash.com/photo-1599599809232-4e8aef4e5cd5?w=300&q=80"},
+  {name:"Tomato Onion Uttapam",price:100,category:"south",img:"https://images.unsplash.com/photo-1599599809232-4e8aef4e5cd5?w=300&q=80"},
+  {name:"Tomato Onion Butter Uttapam",price:100,category:"south",img:"https://images.unsplash.com/photo-1599599809232-4e8aef4e5cd5?w=300&q=80"},
+  {name:"Aloo Parantha",price:50,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Onion-Paneer Paratha",price:70,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Cheese Aloo Parantha",price:100,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Aloo-Pyaaz Parantha",price:70,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Paneer Parantha",price:90,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Aloo-Gobi Parantha",price:70,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Aloo-Paneer Parantha",price:100,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Mix-Veg Parantha",price:70,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Gobi Parantha",price:70,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Cheese Paneer Parantha",price:100,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Pyaaz Parantha",price:70,category:"paranthas",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Hot and Sour Soup",price:100,category:"soups",img:"https://images.unsplash.com/photo-1587274395779-c4ef3e6f6e6a?w=300&q=80"},
+  {name:"Manchow Soup",price:100,category:"soups",img:"https://images.unsplash.com/photo-1587274395779-c4ef3e6f6e6a?w=300&q=80"},
+  {name:"Chana Chilly",price:140,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Chilly Mushroom",price:160,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Chilly Corn",price:140,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Black Pepper Paneer",price:160,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Chilly Paneer Dry",price:100,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Black Pepper Mushroom",price:160,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Manchurian",price:150,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Paneer Tikka",price:160,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Crispy Veg",price:150,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Malai Paneer Tikka",price:200,category:"starters",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Schezwan Noodles",price:150,category:"maincourse",img:"https://images.unsplash.com/photo-1558521132-8ac38271858f?w=300&q=80"},
+  {name:"Paneer Schezwan Noodles",price:180,category:"maincourse",img:"https://images.unsplash.com/photo-1558521132-8ac38271858f?w=300&q=80"},
+  {name:"Hakka Noodles",price:140,category:"maincourse",img:"https://images.unsplash.com/photo-1558521132-8ac38271858f?w=300&q=80"},
+  {name:"Fried Rice",price:160,category:"maincourse",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Schezwan Fried Rice",price:180,category:"maincourse",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Mexican Rice",price:200,category:"maincourse",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Chilli Paneer Gravy",price:100,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Paneer in Hot Garlic Sauce",price:150,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Mushroom in Hot Garlic Sauce",price:150,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Paneer Masala",price:200,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Paneer Bhurji Dry",price:220,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Bed Kolhapuri",price:250,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Mix Veg",price:188,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Aloo Palak",price:220,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Paneer Bhurji Gravy",price:240,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Sev Bhaji",price:120,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Jeera Aloo",price:120,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Paneer Matar",price:190,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Paneer Butter",price:220,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Paneer Saoji",price:250,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Malai Kofta",price:250,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Kaju Curry",price:270,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Kaju Paneer",price:250,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Sev Tamatar",price:180,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Dal Fry",price:110,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Dal Tadka",price:120,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Chana Sal",price:120,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Aloo Matar",price:120,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Jeera Dal",price:120,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Tamatar Chutney",price:120,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Dahi Fry",price:270,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Aloo Gobi",price:130,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Baigan Mas",price:120,category:"maincourse",img:"https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80"},
+  {name:"Butter Roti",price:20,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Tawa Roti",price:15,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Plain Parantha Fry",price:40,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Plain Parantha Roasted",price:40,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Bajra Roti",price:15,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Tandoori Roti",price:20,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Naan",price:30,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Butter Naan",price:60,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Garlic Naan",price:30,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Laccha Parantha",price:60,category:"breads",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300&q=80"},
+  {name:"Steamed Rice",price:100,category:"rice",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Steamed Rice 1/2",price:70,category:"rice",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Jeera Rice",price:60,category:"rice",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Jeera Rice 1/2",price:70,category:"rice",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Masala Rice",price:150,category:"rice",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Garlic Jeera Rice",price:130,category:"rice",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Dal Khichdi",price:160,category:"rice",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Veg Pulao",price:180,category:"rice",img:"https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&q=80"},
+  {name:"Butter-Milk",price:20,category:"drinks",img:"https://images.unsplash.com/photo-1553530666-ba2a29cda3cb?w=300&q=80"},
+  {name:"Soft Drinks / Water",price:40,category:"drinks",img:"https://images.unsplash.com/photo-1554866585-acbb2cad6d1a?w=300&q=80"},
+  {name:"Assi",price:40,category:"drinks",img:"https://images.unsplash.com/photo-1553530666-ba2a29cda3cb?w=300&q=80"},
+  {name:"Tea",price:10,category:"drinks",img:"https://images.unsplash.com/photo-1597318108267-eac86c1b0ecf?w=300&q=80"},
+  {name:"Mango Lassi",price:60,category:"drinks",img:"https://images.unsplash.com/photo-1553530666-ba2a29cda3cb?w=300&q=80"},
+  {name:"Special Tea",price:15,category:"drinks",img:"https://images.unsplash.com/photo-1597318108267-eac86c1b0ecf?w=300&q=80"},
+  {name:"Milk",price:30,category:"drinks",img:"https://images.unsplash.com/photo-1553530666-ba2a29cda3cb?w=300&q=80"},
+  {name:"Black Tea",price:10,category:"drinks",img:"https://images.unsplash.com/photo-1597318108267-eac86c1b0ecf?w=300&q=80"},
+  {name:"Green Tea",price:30,category:"drinks",img:"https://images.unsplash.com/photo-1597318108267-eac86c1b0ecf?w=300&q=80"},
+  {name:"Fresh Lime Water",price:30,category:"drinks",img:"https://images.unsplash.com/photo-1553530666-ba2a29cda3cb?w=300&q=80"},
+  {name:"Coffee",price:20,category:"drinks",img:"https://images.unsplash.com/photo-1559056199-641a0ac8b8b2?w=300&q=80"},
+  {name:"Black Coffee",price:20,category:"drinks",img:"https://images.unsplash.com/photo-1559056199-641a0ac8b8b2?w=300&q=80"},
+  {name:"Papad",price:20,category:"desserts",img:"https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&q=80"},
+  {name:"Roasted Papad",price:20,category:"desserts",img:"https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&q=80"},
+  {name:"Fry Papad",price:30,category:"desserts",img:"https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&q=80"},
+  {name:"Masala Papad",price:40,category:"desserts",img:"https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&q=80"},
+  {name:"Gulab Jamun (2PC)",price:50,category:"desserts",img:"https://images.unsplash.com/photo-1606312519331-379a88e0df60?w=300&q=80"},
+  {name:"Mirchi Thecha",price:90,category:"desserts",img:"https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&q=80"}
+];
+
+let cart=[];
+
+/* RENDER */
+function renderProducts(list){
+  const grid=document.getElementById('productGrid');
+  grid.innerHTML='';
+  if(list.length===0){
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:#999;">No items found</div>';
+    return;
+  }
+  list.forEach(item=>{
+    const idx=products.indexOf(item);
+    const cartItem=cart.find(c=>c.name===item.name);
+    const qty=cartItem?cartItem.quantity:0;
+    grid.innerHTML+=`
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="${item.img}" alt="${item.name}" loading="lazy">
+        <div class="veg-badge"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${item.name}</div>
+        <div class="card-footer">
+          <div class="card-price">₹${item.price}</div>
+          ${qty===0
+            ? `<button class="add-btn" id="btn-${idx}" onclick="addToCart(${idx},this)">+ ADD</button>`
+            : `<div class="qty-controls" id="btn-${idx}">
+                <button class="qty-btn minus" onclick="removeFromCart(${idx})">−</button>
+                <span class="qty-num">${qty}</span>
+                <button class="qty-btn plus" onclick="addToCart(${idx},null)">+</button>
+               </div>`
+          }
+        </div>
+      </div>
+    </div>`;
+  });
+}
+renderProducts(products);
+
+/* FILTER */
+function filterCategory(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  document.getElementById('sectionTitle').textContent=categoryTitles[cat]||'All Items';
+  renderProducts(cat==='all'?products:products.filter(p=>p.category===cat));
+}
+
+/* CART ACTIONS */
+function addToCart(idx,btn){
+  const product=products[idx];
+  const existing=cart.find(c=>c.name===product.name);
+  if(existing){existing.quantity++;}
+  else{cart.push({name:product.name,price:product.price,img:product.img,quantity:1,idx});}
+  if(btn){
+    btn.textContent='✓ Added';btn.classList.add('added');
+    setTimeout(()=>{btn.textContent='+ ADD';btn.classList.remove('added');},700);
+  }
+  updateCartUI();
+  renderCurrentView();
+  showToast(`${product.name} added to cart`);
+}
+
+function removeFromCart(idx){
+  const product=products[idx];
+  const existing=cart.find(c=>c.name===product.name);
+  if(!existing)return;
+  if(existing.quantity>1){existing.quantity--;}
+  else{cart=cart.filter(c=>c.name!==product.name);}
+  updateCartUI();
+  renderCurrentView();
+}
+
+let currentFilter='all';
+function renderCurrentView(){
+  const activeBtn=document.querySelector('.filter-btn.active');
+  if(activeBtn){
+    const txt=activeBtn.textContent.trim();
+    const cat=Object.entries(categoryTitles).find(([k,v])=>v===txt||activeBtn.onclick?.toString().includes(`'${k}'`));
+  }
+  // Re-render keeping active filter
+  const activeFilt=document.querySelector('.filter-btn.active');
+  if(!activeFilt)return;
+  const match=activeFilt.getAttribute('onclick').match(/'([^']+)'/);
+  const cat=match?match[1]:'all';
+  renderProducts(cat==='all'?products:products.filter(p=>p.category===cat));
+}
+
+/* UPDATE CART UI */
+function updateCartUI(){
+  let totalQty=0,total=0;
+  cart.forEach(i=>{totalQty+=i.quantity;total+=i.price*i.quantity;});
+  document.getElementById('cartCount').textContent=totalQty;
+  document.getElementById('cartCountPanel').textContent=`${totalQty} item${totalQty!==1?'s':''}`;
+
+  const wrap=document.getElementById('cartItems');
+  const bill=document.getElementById('billSummary');
+  const form=document.getElementById('checkoutForm');
+
+  if(cart.length===0){
+    wrap.innerHTML=`<div class="cart-empty">
+      <div class="cart-empty-icon">🍽️</div>
+      <h4>Your plate is empty!</h4>
+      <p>Add delicious items from our menu</p>
+    </div>`;
+    bill.style.display='none';form.style.display='none';
+    return;
+  }
+
+  let html='';
+  cart.forEach((item,i)=>{
+    html+=`<div class="cart-item">
+      <img class="cart-item-img" src="${item.img}" alt="${item.name}">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">₹${item.price} × ${item.quantity} = ₹${item.price*item.quantity}</div>
+      </div>
+      <div class="qty-controls">
+        <button class="qty-btn minus" onclick="removeFromCart(${item.idx})">−</button>
+        <span class="qty-num">${item.quantity}</span>
+        <button class="qty-btn plus" onclick="addToCart(${item.idx},null)">+</button>
+      </div>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+  document.getElementById('subtotal').textContent='₹'+total;
+  document.getElementById('totalPrice').textContent='₹'+total;
+  bill.style.display='block';form.style.display='block';
+}
+
+/* CART OPEN/CLOSE */
+function openCart(){
+  document.getElementById('cartPanel').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCart(){
+  document.getElementById('cartPanel').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* PLACE ORDER */
+function placeOrder(){
+  const name=document.getElementById('customerName').value.trim();
+  const table=document.getElementById('tableNo').value.trim();
+  if(!name||!table||cart.length===0){
+    showToast('⚠️ Please fill name, table & add items');return;
+  }
+  let orderDetails='';let total=0;
+  cart.forEach(item=>{
+    orderDetails+=`${item.name} | Qty: ${item.quantity} | ₹${item.price*item.quantity}\n`;
+    total+=item.price*item.quantity;
+  });
+  const timestamp=new Date().toLocaleString();
+  emailjs.send("service_8riowot","template_eyo9az1",{
+    customer_name:name,table_number:table,
+    order_details:orderDetails,total_price:total,order_time:timestamp
+  }).then(()=>{
+    showSuccessPopup();
+    cart=[];updateCartUI();renderCurrentView();
+    document.getElementById('customerName').value='';
+    document.getElementById('tableNo').value='';
+    closeCart();
+  }).catch(e=>{console.log(e);showToast('❌ Failed to send order');});
+}
+
+/* SUCCESS */
+function showSuccessPopup(){
+  const p=document.getElementById('successPopup');
+  p.classList.add('show');
+  setTimeout(()=>p.classList.remove('show'),3000);
+}
+
+/* TOAST */
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2000);
+}
+</script>
+</body>
+</html>
